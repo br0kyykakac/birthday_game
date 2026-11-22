@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokument</title>
+    <link rel="stylesheet" href="https://api.ssps.cajthaml.eu/file/68f3df8a793bb6d00c5da848">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            display: flex;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            width: 100%;
+            background-color: rgb(13, 16, 22);
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .page {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            min-height: 140px;
+            background-color: rgb(23, 27, 34);
+            z-index: 10;
+        }
+
+        nav {
+            width: 100%;
+            max-width: 2200px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.2);
+            padding: 20px 40px;
+        }
+
+        .nav_brand_text {
+            color: rgb(107, 165, 253);
+            font-size: 80px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            column-gap: 30px;
+            flex-shrink: 0;
+        }
+
+        .icon {
+            width: 100px;
+            height: 100px;
+        }
+
+        .nav_right {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .nav_links {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .info_text {
+            color: rgb(141, 150, 160);
+            font-size: 33px;
+            letter-spacing: -1px;
+        }
+
+        .nav_bar_button {
+            background-color: rgb(64, 133, 56);
+            font-size: 30px;
+            padding: 10px 30px;
+            color: white;
+            white-space: nowrap;
+        }
+
+        main {
+            background-color: rgb(21, 24, 31);
+            width: 100%;
+            max-width: 2200px;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+            box-shadow: 0 0 60px rgb(21, 24, 31);
+        }
+
+        .intro_article {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .atricle_button {
+            flex: 1;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .article_button_text {
+            color: rgb(175, 186, 189);
+            font-size: 35px;
+            text-align: center;
+        }
+
+        #survival {
+            background-color: rgb(36, 39, 47);
+        }
+
+        #cyber_weapons {
+            background-color: rgb(45, 49, 57);
+        }
+
+        #site_wars {
+            background-color: rgb(53, 59, 68);
+        }
+
+        #digital_utopia {
+            background-color: rgb(61, 67, 75);
+        }
+
+        .illustration {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .illustration_info {
+            width: 100%;
+            height: 85px;
+            border-top: 7px solid rgb(12, 14, 17);
+            border-bottom: 10px solid rgb(12, 14, 17);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 30px;
+            background-color: rgb(23, 27, 34);
+        }
+
+        .copyright {
+            color: rgb(119, 129, 140);
+            font-size: 35px;
+        }
+
+        .main_article {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgb(21, 24, 31);
+            padding-bottom: 80px;
+        }
+
+        h2 {
+            color: rgb(107, 165, 253);
+            font-size: 78px;
+            font-weight: 800;
+            letter-spacing: 10px;
+            padding: 70px 20px 0;
+            text-align: center;
+        }
+
+        hr {
+            width: 400px;
+            height: 6.8px;
+            background-color: rgb(48, 53, 60);
+            border: none;
+            margin: 20px 0 80px;
+        }
+
+        .digital_night {
+            color: rgb(119, 129, 140);
+            font-size: 41px;
+            text-align: center;
+            margin: 0 150px 30px;
+            letter-spacing: 1.5px;
+            line-height: 1.5;
+        }
+
+        .theme_cards {
+            background-color: rgb(23, 27, 34);
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: stretch;
+            margin-top: 60px;
+            padding: 60px 40px;
+            gap: 20px;
+        }
+
+        .card {
+            width: 440px;
+            border: solid 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 55px;
+        }
+
+        .primary {
+            border-color: rgb(107, 165, 253);
+            color: rgb(107, 165, 253);
+        }
+
+        .secondary {
+            border-color: rgb(78, 159, 69);
+            color: rgb(78, 159, 69);
+        }
+
+        .card i {
+            font-size: 65px;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            border: solid 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .card h3 {
+            font-size: 40px;
+            font-weight: 800;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .card p {
+            font-size: 33px;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .quote_section {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            padding: 70px 30px 0;
+        }
+
+        .quotation_mark {
+            color: rgb(107, 165, 253);
+            font-size: 100px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .quote {
+            color: rgb(107, 165, 253);
+            font-size: 50px;
+            font-weight: 800;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .author {
+            color: rgb(119, 129, 140);
+            font-size: 45px;
+            width: 100%;
+            text-align: right;
+            padding: 22px 200px 0 0;
+        }
+
+        .blur {
+            background-color: rgb(21, 24, 31);
+            filter: blur(20px);
+            width: 100%;
+            height: 30px;
+        }
+
+        footer {
+            background-color: rgb(14, 17, 23);
+            width: 100%;
+            max-width: 2200px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .about_us {
+            width: 45%;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            padding: 65px 150px 40px 180px;
+        }
+
+        .contact {
+            width: 20%;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            padding: 65px 20px 40px 50px;
+        }
+
+        .information {
+            width: 35%;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            padding: 65px 20px 40px 180px;
+        }
+
+        h4 {
+            color: rgb(200, 200, 200);
+            font-size: 38px;
+            padding-bottom: 10px;
+        }
+
+        footer p {
+            font-size: 33px;
+            color: rgb(119, 129, 140);
+            line-height: 1.5;
+            padding-top: 20px;
+        }
+
+        .information_content {
+            color: rgb(200, 200, 200);
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        .information p:last-child {
+            padding-top: 40px;
+        }
+
+        @media (max-width: 1200px) {
+
+            nav {
+                padding: 15px 25px;
+                gap: 15px;
+                align-items: center;
+            }
+
+            .nav_brand_text {
+                font-size: 52px;
+            }
+
+            .icon {
+                width: 65px;
+                height: 65px;
+            }
+
+            .nav_right {
+                gap: 20px;
+            }
+
+            .nav_links {
+                gap: 20px;
+            }
+
+            .info_text {
+                font-size: 22px;
+            }
+
+            .nav_bar_button {
+                font-size: 20px;
+                padding: 8px 20px;
+            }
+
+            .atricle_button {
+                height: 90px;
+            }
+
+            .article_button_text {
+                font-size: 22px;
+            }
+
+            .copyright {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 52px;
+                letter-spacing: 6px;
+                padding-top: 50px;
+            }
+
+            hr {
+                width: 260px;
+                margin-bottom: 50px;
+            }
+
+            .digital_night {
+                font-size: 26px;
+                margin-left: 60px;
+                margin-right: 60px;
+            }
+
+            .main_article {
+                padding-bottom: 55px;
+            }
+
+            .theme_cards {
+                padding: 40px 20px;
+                gap: 15px;
+                margin-top: 40px;
+            }
+
+            .card {
+                width: calc(50% - 18px);
+                padding: 30px;
+            }
+
+            .card i {
+                font-size: 42px;
+                width: 80px;
+                height: 80px;
+            }
+
+            .card h3 {
+                font-size: 26px;
+            }
+
+            .card p {
+                font-size: 20px;
+            }
+
+            .quotation_mark {
+                font-size: 70px;
+            }
+
+            .quote {
+                font-size: 32px;
+            }
+
+            .author {
+                font-size: 28px;
+                padding-right: 80px;
+            }
+
+            .about_us {
+                width: 50%;
+                min-height: auto;
+                padding: 40px 30px 40px 50px;
+            }
+
+            .contact {
+                width: 50%;
+                min-height: auto;
+                padding: 40px 30px 40px 40px;
+            }
+
+            .information {
+                width: 100%;
+                min-height: auto;
+                padding: 25px 50px 40px 50px;
+            }
+
+            h4 {
+                font-size: 26px;
+            }
+
+            footer p {
+                font-size: 22px;
+            }
+
+            .information_content {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                min-height: auto;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 12px 15px;
+                gap: 10px;
+            }
+
+            .nav_brand_text {
+                font-size: 28px;
+                column-gap: 12px;
+            }
+
+            .icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .nav_right {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .nav_links {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+                width: 100%;
+            }
+
+            .info_text {
+                font-size: 15px;
+            }
+
+            .nav_bar_button {
+                font-size: 15px;
+                padding: 8px 15px;
+                width: 100%;
+                text-align: center;
+            }
+
+            .atricle_button {
+                flex: unset;
+                width: 50%;
+                height: 55px;
+            }
+
+            .article_button_text {
+                font-size: 14px;
+            }
+
+            .illustration_info {
+                height: auto;
+                padding: 10px 15px;
+            }
+
+            .copyright {
+                font-size: 14px;
+            }
+
+            h2 {
+                font-size: 26px;
+                letter-spacing: 2px;
+                padding-top: 35px;
+            }
+
+            hr {
+                width: 120px;
+                height: 4px;
+                margin-bottom: 25px;
+            }
+
+            .digital_night {
+                font-size: 15px;
+                margin-left: 20px;
+                margin-right: 20px;
+                letter-spacing: 0.5px;
+            }
+
+            .main_article {
+                padding-bottom: 35px;
+            }
+
+            .theme_cards {
+                padding: 20px 10px;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .card {
+                width: 100%;
+                padding: 18px;
+            }
+
+            .card i {
+                font-size: 28px;
+                width: 58px;
+                height: 58px;
+                border-width: 5px;
+            }
+
+            .card h3 {
+                font-size: 16px;
+            }
+
+            .card p {
+                font-size: 13px;
+            }
+
+            .quote_section {
+                padding-top: 35px;
+            }
+
+            .quotation_mark {
+                font-size: 40px;
+            }
+
+            .quote {
+                font-size: 17px;
+            }
+
+            .author {
+                font-size: 15px;
+                padding-right: 20px;
+            }
+
+            .about_us {
+                width: 100%;
+                min-height: auto;
+                padding: 20px 20px;
+            }
+
+            .contact {
+                width: 100%;
+                min-height: auto;
+                padding: 20px 20px;
+            }
+
+            .information {
+                width: 100%;
+                min-height: auto;
+                padding: 20px 20px;
+            }
+
+            h4 {
+                font-size: 17px;
+            }
+
+            footer p {
+                font-size: 14px;
+                padding-top: 10px;
+            }
+
+            .information_content {
+                font-size: 14px;
+            }
+
+            .information p:last-child {
+                padding-top: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <header>
+            <nav>
+                <p class="nav_brand_text">
+                    <img src="https://api.ssps.cajthaml.eu/file/69335fbb6945137e5671b038" alt="ikona" class="icon">
+                    CyberCorp
+                </p>
+                <div class="nav_right">
+                    <div class="nav_links">
+                        <p class="info_text">Zprávy z podsvětí</p>
+                        <p class="info_text">Kybernetika</p>
+                        <p class="info_text">Hackerská elita</p>
+                        <p class="info_text">Často hackované otázky</p>
+                    </div>
+                    <p class="nav_bar_button">PŘIPOJIT SE</p>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <section class="intro_article">
+                <article class="atricle_button" id="survival">
+                    <p class="article_button_text">PŘEŽITÍ</p>
+                </article>
+                <article class="atricle_button" id="cyber_weapons">
+                    <p class="article_button_text">KYBERZBRANĚ</p>
+                </article>
+                <article class="atricle_button" id="site_wars">
+                    <p class="article_button_text">SÍŤOVÉ VÁLKY</p>
+                </article>
+                <article class="atricle_button" id="digital_utopia">
+                    <p class="article_button_text">DIGITÁLNÍ UTOPIE</p>
+                </article>
+            </section>
+            <article class="main_article article_info">
+                <img src="https://api.ssps.cajthaml.eu/file/69335fb128ac5f259ab1763a" alt="obrázek města"
+                    class="illustration">
+                <section class="illustration_info">
+                    <p class="copyright">2126 © CyberCorp - Všechna práva zašifrována</p>
+                </section>
+            </article>
+            <article class="main_article article_intro">
+                <h2>DIGITÁLNÍ NOC</h2>
+                <hr>
+                <p class="digital_night">V roce 2126 se svět rozdělil na osvícené megaměsta a temné digitální pustiny.
+                    Lidé hledají bezpečí pod vrstvou holografických mrakodrapů, zatímco kybernetičtí
+                    rebelové bojují za svobodu na podvratných sítích.</p>
+                <p class="digital_night">Každodenní život je propojen s neurálními implantáty, ale pod jejich lesklou
+                    fasádou se skrývá boj o kontrolu nad myšlenkami. Hackeři na každém rohu
+                    upravují realitu, manipulují s daty a mění svět v nepřetržitý digitální chaos.</p>
+                <p class="digital_night">Kyberkultura je život. Kybernetická válka je nevyhnutelná. Ale jediné, co
+                    zůstává jisté, je nekončící touha po svobodě.</p>
+            </article>
+            <article class="main_article article_themes">
+                <section class="theme_cards">
+                    <div class="card primary">
+                        <i class="fa-solid fa-robot"></i>
+                        <h3>AI ROZVOJ</h3>
+                        <p>Kyberumělci posouvají hranice kreativity ve spojení s umělou inteligencí.</p>
+                    </div>
+                    <div class="card secondary">
+                        <i class="fa-solid fa-key"></i>
+                        <h3>BEZPEČNOST</h3>
+                        <p>Data jsou měnou. Vaše soukromí? Iluze v rukou megakorporací.</p>
+                    </div>
+                    <div class="card primary">
+                        <i class="fa-solid fa-glasses"></i>
+                        <h3>BUDOUCNOST</h3>
+                        <p>Nová éra začíná ve virtuálním světě - realita ztrácí význam.</p>
+                    </div>
+                    <div class="card secondary">
+                        <i class="fa-solid fa-network-wired"></i>
+                        <h3>KYBERSÍTĚ</h3>
+                        <p>Připojte se. Buďte součástí boje za svobodu na darknetu.</p>
+                    </div>
+                </section>
+            </article>
+            <article class="main_article article_quote">
+                <section class="quote_section">
+                    <p class="quotation_mark">„</p>
+                    <p class="quote">Všechno je data. Nezáleží na tom, co je skutečné.</p>
+                    <p class="quotation_mark">"</p>
+                </section>
+                <p class="author">- cyberProphet</p>
+            </article>
+        </main>
+        <footer>
+            <div class="blur"></div>
+            <section class="about_us">
+                <h4>O nás</h4>
+                <p>CyberCorp je největší síťová komunita, která propojuje mysl a budoucnost.</p>
+            </section>
+            <section class="contact">
+                <h4>Kontakt</h4>
+                <p>info@cybercorp.net</p>
+                <p>+420 284 016 666</p>
+            </section>
+            <section class="information">
+                <h4>Informace</h4>
+                <p class="information_content">PODPORA</p>
+                <p class="information_content">TECHNOLOGIE</p>
+                <p class="information_content">HACKERSKÁ AKADEMIE</p>
+            </section>
+        </footer>
+    </div>
+</body>
