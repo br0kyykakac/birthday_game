@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arcade de cumpleaños</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--ink:#000;--soft:#eee;--mid:#8a8a8a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--ink:#fff;--soft:#171717;--mid:#777}}
+:root[data-theme="dark"]{--bg:#000;--ink:#fff;--soft:#171717;--mid:#777}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans","Helvetica Neue",Arial,sans-serif;min-height:100vh;padding:20px 16px 32px}
+main{max-width:520px;margin:0 auto}
+h1,h2,.d{font-family:"Bebas Neue",Impact,"Arial Narrow",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
+h1{font-size:clamp(56px,17vw,96px);line-height:.88;border-bottom:4px solid var(--ink);padding-bottom:14px}
+h2{font-size:46px;line-height:1;margin:6px 0 4px}
+p{font-size:16px;line-height:1.45;margin:10px 0}
+.view{display:none}.view.on{display:block}
+button{font-family:inherit;color:var(--ink);cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.m{aspect-ratio:1;border:2px solid var(--ink);background:var(--bg);padding:14px;text-align:left;display:flex;flex-direction:column;justify-content:space-between}
+.m .d{font-size:clamp(28px,8vw,40px);line-height:.95;display:block}
+.m small{font-size:13px;display:block;margin-top:4px}
+.m svg{width:44px;height:44px;fill:none;stroke:currentColor;stroke-width:2.5}
+.m:hover,.m:focus-visible{background:var(--ink);color:var(--bg)}
+.back{background:none;border:0;font-size:15px;font-weight:700;padding:6px 0;text-decoration:underline;text-underline-offset:4px}
+.b{background:var(--ink);color:var(--bg);border:2px solid var(--ink);padding:10px 22px;font-family:"Bebas Neue",Impact,sans-serif;font-size:22px;letter-spacing:.05em;margin:6px 8px 6px 0}
+.b.alt{background:var(--bg);color:var(--ink)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.o{background:var(--bg);border:2px solid var(--ink);padding:14px 6px;font-size:15px;font-weight:700}
+.o:disabled{opacity:.3;text-decoration:line-through}
+.msg{min-height:26px;font-weight:700;margin:10px 0}
+.pads{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px auto;max-width:380px}
+.pad{aspect-ratio:1;border-radius:50%;border:4px solid var(--ink);background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;touch-action:manipulation;font-family:"Bebas Neue",Impact,sans-serif;font-size:32px;letter-spacing:.04em}
+.pad small{font-family:"DM Sans",sans-serif;font-size:13px;font-weight:700}
+.pad.hit{background:var(--ink);color:var(--bg);transform:scale(.95)}
+.clues{margin:14px 0;padding:0;list-style:none}
+.clues li{border-left:6px solid var(--ink);background:var(--soft);padding:12px 14px;margin:8px 0;font-size:16px}
+input{width:100%;font-family:inherit;font-size:17px;padding:13px 14px;border:2px solid var(--ink);background:var(--bg);color:var(--ink);border-radius:0}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:12px 0}
+.w{background:var(--soft);border:2px solid var(--soft);min-height:62px;font-size:clamp(11px,3.2vw,15px);font-weight:700;padding:4px;word-break:break-word}
+.w.sel{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.sol{padding:10px 12px;margin:7px 0;font-size:15px}
+.sol .d{font-size:26px;display:block}
+.lang{display:flex;justify-content:flex-end;margin-bottom:10px}.lang button{border:2px solid var(--ink);background:var(--bg);padding:2px 14px;font-family:"Bebas Neue",Impact,sans-serif;font-size:20px;letter-spacing:.05em}.lang button+button{margin-left:-2px}.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+@media (prefers-reduced-motion:reduce){.pad{transform:none!important}}
+</style></head><body><main>
+<div class="lang" role="group" aria-label="Idioma / Language"><button id="lang-es" onclick="setLang('es')" aria-pressed="true">ES</button><button id="lang-en" onclick="setLang('en')" aria-pressed="false">EN</button></div>
+
+<div class="view on" id="v0">
+  <h1 data-en="Happy<br>birthday!">¡Feliz<br>cumpleaños!</h1>
+  <p data-en="Pick a game. You can come back here any time.">Elige un juego. Puedes volver aquí cuando quieras.</p>
+  <div class="menu">
+    <button class="m" onclick="go(1)"><svg viewBox="0 0 48 48"><ellipse cx="24" cy="18" rx="16" ry="7"/><path d="M8 18v14c0 4 7 7 16 7s16-3 16-7V18"/></svg><span><span class="d" data-en="Drum ear">Oído de batería</span><small data-en="Name the beat">Adivina el ritmo</small></span></button>
+    <button class="m" onclick="go(2)"><svg viewBox="0 0 48 48"><circle cx="13" cy="13" r="8"/><circle cx="35" cy="13" r="8"/><circle cx="13" cy="35" r="8"/><circle cx="35" cy="35" r="8"/></svg><span><span class="d" data-en="Pads">Pads</span><small data-en="Copy the pattern">Repite el patrón</small></span></button>
+    <button class="m" onclick="go(3)"><svg viewBox="0 0 48 48"><path d="M18 36V8l22-4v28"/><circle cx="12" cy="36" r="6"/><circle cx="34" cy="32" r="6"/></svg><span><span class="d" data-en="Clues">Pistas</span><small data-en="Guess the song">Adivina la canción</small></span></button>
+    <button class="m" onclick="go(4)"><svg viewBox="0 0 48 48"><rect x="4" y="4" width="17" height="17"/><rect x="27" y="4" width="17" height="17"/><rect x="4" y="27" width="17" height="17"/><rect x="27" y="27" width="17" height="17"/></svg><span><span class="d" data-en="Connections">Conexiones</span><small data-en="Sort 16 words">Ordena 16 palabras</small></span></button>
+  </div>
+</div>
+
+<div class="view" id="v1">
+  <button class="back" onclick="go(0)" data-en="Back to menu">Volver al menú</button>
+  <h2 data-en="Drum ear">Oído de batería</h2>
+  <p data-en="Listen to the beat, then name it. Each wrong guess gives you a longer clip.">Escucha el ritmo y di cuál es. Cada fallo te da un fragmento más largo.</p>
+  <button class="b" id="play1" data-en="Play clip">Reproducir</button>
+  <p id="try1"></p>
+  <div class="opts" id="opts1"></div>
+  <div class="msg" id="msg1" role="status" aria-live="polite"></div>
+  <button class="b alt" id="next1" style="display:none" data-en="Next beat">Otro ritmo</button>
+</div>
+
+<div class="view" id="v2">
+  <button class="back" onclick="go(0)" data-en="Back to menu">Volver al menú</button>
+  <h2 data-en="Pads">Pads</h2>
+  <p data-en="Tap the pads or press A S D F. Press Start and repeat the pattern as it grows.">Toca los pads o usa las teclas A S D F. Pulsa Empezar y repite el patrón, que crece en cada nivel.</p>
+  <div class="pads" id="pads"></div>
+  <button class="b" id="start2" data-en="Start">Empezar</button>
+  <div class="msg" id="msg2" role="status" aria-live="polite"></div>
+</div>
+
+<div class="view" id="v3">
+  <button class="back" onclick="go(0)" data-en="Back to menu">Volver al menú</button>
+  <h2 data-en="Clues">Pistas</h2>
+  <p data-en="Guess the song. Every wrong guess unlocks another clue.">Adivina la canción. Cada fallo desbloquea otra pista.</p>
+  <ul class="clues" id="clues"></ul>
+  <input id="in3" list="songs" placeholder="Escribe el título" autocomplete="off">
+  <datalist id="songs"></datalist>
+  <button class="b" id="go3" data-en="Guess">Adivinar</button>
+  <div class="msg" id="msg3" role="status" aria-live="polite"></div>
+  <button class="b alt" id="next3" style="display:none" data-en="Next song">Otra canción</button>
+</div>
+
+<div class="view" id="v4">
+  <button class="back" onclick="go(0)" data-en="Back to menu">Volver al menú</button>
+  <h2 data-en="Connections">Conexiones</h2>
+  <p><span data-en="Find four groups of four words. Mistakes left: ">Encuentra cuatro grupos de cuatro palabras. Errores restantes: </span><b id="lives"></b></p>
+  <div id="sols"></div>
+  <div class="grid" id="grid"></div>
+  <button class="b" id="sub4" data-en="Submit">Enviar</button>
+  <button class="b alt" id="shuf4" data-en="Shuffle">Mezclar</button>
+  <div class="msg" id="msg4" role="status" aria-live="polite"></div>
+  <button class="b alt" id="next4" style="display:none" data-en="Next puzzle">Otro puzle</button>
+</div>
+
+</main>
+<script>
+var $=function(i){return document.getElementById(i)};
+var L="es",cur=0;try{L=localStorage.getItem("lang")||"es"}catch(x){}
+function T(a,b){return L==="es"?a:b}
+function go(n){cur=n;for(var i=0;i<5;i++)$("v"+i).className="view"+(i===n?" on":"");simon.on=false;if(n===1&&!e.pat)newBeat();if(n===3&&!c.s)newSong();if(n===4&&!q.g)newPuzzle();window.scrollTo(0,0)}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+
+/* ---------- sonidos de batería sintetizados ---------- */
+var AC,NB;
+function ctx(){if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();NB=AC.createBuffer(1,AC.sampleRate,AC.sampleRate);var d=NB.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1}if(AC.state==="suspended")AC.resume();return AC}
+function noise(t,dur,hp,g){var a=ctx(),s=a.createBufferSource(),f=a.createBiquadFilter(),v=a.createGain();s.buffer=NB;f.type="highpass";f.frequency.value=hp;v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+dur);s.connect(f);f.connect(v);v.connect(a.destination);s.start(t);s.stop(t+dur)}
+function tone(t,f0,f1,dur,g){var a=ctx(),o=a.createOscillator(),v=a.createGain();o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(f1,t+dur);v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+dur);o.connect(v);v.connect(a.destination);o.start(t);o.stop(t+dur)}
+var SND={kick:function(t){tone(t,150,45,.2,1)},snare:function(t){noise(t,.15,1500,.6);tone(t,200,120,.1,.4)},hat:function(t){noise(t,.05,7000,.25)},crash:function(t){noise(t,.9,4000,.35)},tom:function(t,f){tone(t,f||200,(f||200)*.6,.25,.8)}};
+
+/* ---------- 1. Oído de batería ---------- */
+var ev=[0,2,4,6,8,10,12,14],all=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+var PATS=[
+ {n:["Rock básico","Rock beat"],k:[0,8],s:[4,12],h:ev},
+ {n:["Bombo a negras","Four on the floor"],k:[0,4,8,12],s:[4,12],h:[2,6,10,14]},
+ {n:["Doble bombo","Double kick"],k:[0,1,8,9],s:[4,12],h:ev},
+ {n:["Medio tiempo","Half-time"],k:[0],s:[8],h:ev},
+ {n:["Redoble de caja","Snare roll"],s:all},
+ {n:["Relleno de toms","Tom fill"],k:[0],s:[4],tom:[[8,260],[9,260],[10,220],[11,220],[12,180],[13,180],[14,140],[15,140]]}];
+var LENS=[4,8,12,16],e={pat:null,t:0,done:false};
+function playPat(p,n){var a=ctx(),t0=a.currentTime+.05,st=.14;
+ ["kick","snare","hat"].forEach(function(x,i){var arr=p["ksh"[i]]||[];arr.forEach(function(s){if(s<n)SND[x](t0+s*st)})});
+ (p.tom||[]).forEach(function(x){if(x[0]<n)SND.tom(t0+x[0]*st,x[1])})}
+function newBeat(){e.pat=PATS[Math.floor(Math.random()*PATS.length)];e.t=0;e.done=false;$("msg1").textContent="";$("next1").style.display="none";
+ [].forEach.call($("opts1").children,function(b){b.disabled=false});upd1()}
+function upd1(){$("try1").textContent=T("Fragmento "+(e.t+1)+" de 4","Clip "+(e.t+1)+" of 4")}
+$("play1").onclick=function(){playPat(e.pat,LENS[Math.min(e.t,3)])};
+function buildOpts(){$("opts1").innerHTML="";PATS.forEach(function(p){var b=document.createElement("button");b.className="o";b.textContent=T(p.n[0],p.n[1]);b.onclick=function(){
+ if(e.done)return;if(p===e.pat){e.done=true;$("msg1").textContent=T("¡Sí! Era: "+p.n[0]+".","Yes! That was the "+p.n[1]+".");$("next1").style.display="inline-block";playPat(p,16)}
+ else{b.disabled=true;e.t++;if(e.t>3){e.done=true;$("msg1").textContent=T("Era: "+e.pat.n[0]+".","It was the "+e.pat.n[1]+".");$("next1").style.display="inline-block";playPat(e.pat,16)}
+  else{$("msg1").textContent=T("Ese no. Aquí tienes un fragmento más largo.","Not that one. Here is a longer clip.");upd1();playPat(e.pat,LENS[e.t])}}};$("opts1").appendChild(b)})}
+$("next1").onclick=newBeat;
+
+/* ---------- 2. Pads ---------- */
+var PADS=[["kick",["Bombo","Kick"],"a"],["snare",["Caja","Snare"],"s"],["hat",["Charles","Hi-hat"],"d"],["crash",["Crash","Crash"],"f"]],simon={on:false,seq:[],pos:0,busy:false},padEls=[];
+function hit(i){SND[PADS[i][0]](ctx().currentTime);var el=padEls[i];el.classList.add("hit");setTimeout(function(){el.classList.remove("hit")},160)}
+function buildPads(){$("pads").innerHTML="";padEls=[];PADS.forEach(function(p,i){var b=document.createElement("button");b.className="pad";b.innerHTML=T(p[1][0],p[1][1])+"<small>"+p[2].toUpperCase()+"</small>";
+ b.onmousedown=b.ontouchstart=function(x){x.preventDefault();press(i)};$("pads").appendChild(b);padEls.push(b)})}
+function press(i){hit(i);if(!simon.on||simon.busy)return;
+ if(i===simon.seq[simon.pos]){simon.pos++;if(simon.pos===simon.seq.length){$("msg2").textContent=T("¡Bien! Nivel "+simon.seq.length+" superado.","Nice! Level "+simon.seq.length+" done.");setTimeout(nextLvl,700)}}
+ else{simon.on=false;$("msg2").textContent=T("Fallaste. Llegaste al nivel "+(simon.seq.length-1)+". Pulsa Empezar para intentarlo otra vez.","Missed it. You reached level "+(simon.seq.length-1)+". Press Start to try again.")}}
+function nextLvl(){if(!simon.on)return;simon.seq.push(Math.floor(Math.random()*4));simon.pos=0;simon.busy=true;$("msg2").textContent=T("Mira...","Watch...");
+ simon.seq.forEach(function(x,k){setTimeout(function(){if(simon.on)hit(x)},k*550+300)});
+ setTimeout(function(){simon.busy=false;if(simon.on)$("msg2").textContent=T("¡Tu turno!","Your turn!")},simon.seq.length*550+300)}
+$("start2").onclick=function(){simon={on:true,seq:[],pos:0,busy:false};nextLvl()};
+document.addEventListener("keydown",function(x){if($("v2").className.indexOf("on")<0||x.repeat)return;var i="asdf".indexOf(x.key.toLowerCase());if(i>-1)press(i)});
+
+/* ---------- 3. Pistas ---------- */
+var SONGS=[
+["Smells Like Teen Spirit",["Álbum: Nevermind (1991)","Abre ese álbum y fue su primer single","El título viene de una marca de desodorante escrita en una pared"]],
+["Come as You Are",["Álbum: Nevermind (1991)","Es la pista 3 del disco","Se apoya en un riff de guitarra acuoso y ondulante"]],
+["Lithium",["Álbum: Nevermind (1991)","Es la pista 5 del disco","El título es un medicamento usado en trastornos del estado de ánimo"]],
+["Heart-Shaped Box",["Álbum: In Utero (1993)","Fue el primer single de ese álbum","Su videoclip lo dirigió Anton Corbijn"]],
+["All Apologies",["Álbum: In Utero (1993)","Cierra ese álbum","También hay una versión en MTV Unplugged in New York"]],
+["About a Girl",["Álbum: Bleach (1989)","Una de las canciones más melódicas de ese disco","Destaca en MTV Unplugged in New York"]],
+["My Own Summer (Shove It)",["Álbum: Around the Fur (1997)","Abre ese álbum","El título completo lleva una segunda parte entre paréntesis"]],
+["Change (In the House of Flies)",["Álbum: White Pony (2000)","El título completo lleva una segunda parte entre paréntesis","Está en un álbum que lleva el nombre de un caballo"]],
+["Digital Bath",["Álbum: White Pony (2000)","Un tema lento y brumoso de ese disco","El título mezcla tecnología y agua"]],
+["Passenger",["Álbum: White Pony (2000)","Canta Maynard James Keenan, de Tool","El título es alguien que viaja de acompañante"]],
+["Diamond Eyes",["Álbum: Diamond Eyes (2010)","Es la canción que da título al disco","Se hizo tras el accidente del bajista Chi Cheng, y Sergio Vega entró al bajo"]],
+["Rosemary",["Álbum: Koi No Yokan (2012)","El título es una hierba aromática","Un tema largo y atmosférico"]]];
+var SONGEN={"Smells Like Teen Spirit": ["Album: Nevermind (1991)", "It opens that album and was its lead single", "The title comes from a deodorant brand scrawled on a wall"], "Come as You Are": ["Album: Nevermind (1991)", "Track 3 on the album", "Built around a watery, swirling guitar riff"], "Lithium": ["Album: Nevermind (1991)", "Track 5 on the album", "The title is a medication used for mood disorders"], "Heart-Shaped Box": ["Album: In Utero (1993)", "The lead single from that album", "Its video was directed by Anton Corbijn"], "All Apologies": ["Album: In Utero (1993)", "It closes that album", "A version also appears on MTV Unplugged in New York"], "About a Girl": ["Album: Bleach (1989)", "One of the most melodic songs on that album", "A standout of MTV Unplugged in New York"], "My Own Summer (Shove It)": ["Album: Around the Fur (1997)", "It opens that album", "The full title has a bracketed second half"], "Change (In the House of Flies)": ["Album: White Pony (2000)", "The full title has a bracketed second half", "On an album named after a horse"], "Digital Bath": ["Album: White Pony (2000)", "A slow, hazy track from that album", "The title mixes technology and water"], "Passenger": ["Album: White Pony (2000)", "Features Maynard James Keenan of Tool on vocals", "The title is someone riding along"], "Diamond Eyes": ["Album: Diamond Eyes (2010)", "The title track of that album", "Made after bassist Chi Cheng’s accident, with Sergio Vega joining on bass"], "Rosemary": ["Album: Koi No Yokan (2012)", "The title is a herb", "A long, atmospheric track"]};
+var c={s:null,n:0,done:false,last:-1};
+SONGS.forEach(function(s){var o=document.createElement("option");o.value=s[0];$("songs").appendChild(o)});
+function norm(x){return x.toLowerCase().replace(/\(.*\)/,"").replace(/[^a-z0-9]/g,"")}
+function newSong(){var i;do{i=Math.floor(Math.random()*SONGS.length)}while(i===c.last);c.last=i;c.s=SONGS[i];c.n=1;c.done=false;
+ $("msg3").textContent="";$("in3").value="";$("next3").style.display="none";clues()}
+function clues(){var l=$("clues");l.innerHTML="";var t=c.s[0],w=t.replace(/\(.*\)/,"").trim().split(/\s+/).length;
+ var a=(L==="es"?c.s[1]:SONGEN[t]).concat([T("Empieza por “"+t[0]+"” y tiene "+w+" palabra"+(w>1?"s":"")+" sin contar el paréntesis","Starts with “"+t[0]+"”, "+w+" word"+(w>1?"s":"")+" before any brackets")]);
+ for(var i=0;i<Math.min(c.n,4);i++){var li=document.createElement("li");li.textContent=(i+1)+". "+a[i];l.appendChild(li)}}
+function guess3(){if(c.done)return;var v=norm($("in3").value);if(!v)return;
+ if(v===norm(c.s[0])){c.done=true;$("msg3").textContent=T("¡Correcto! Es "+c.s[0]+".","Correct! It’s "+c.s[0]+".");$("next3").style.display="inline-block"}
+ else{$("in3").value="";if(c.n>=4){c.done=true;$("msg3").textContent=T("Era "+c.s[0]+".","It was "+c.s[0]+".");$("next3").style.display="inline-block"}else{c.n++;$("msg3").textContent=T("No es esa. Aquí va otra pista.","Not quite. Here’s another clue.");clues()}}}
+$("go3").onclick=guess3;$("in3").onkeydown=function(x){if(x.key==="Enter")guess3()};$("next3").onclick=newSong;
+
+/* ---------- 4. Conexiones ---------- */
+var BG=["#000","#555","#999","#ccc"],FG=["#fff","#fff","#000","#000"];
+var PUZ={es:[
+[["Canciones de Nirvana",["Lithium","Polly","Breed","Sliver"]],["Canciones de Deftones",["Passenger","Royal","Elite","Rosemary"]],["Batería",["Caja","Ride","Bombo","Tom"]],["Miembros de las bandas",["Cobain","Chino","Grohl","Abe"]]],
+[["Álbumes de Nirvana",["Bleach","Nevermind","Incesticide","In Utero"]],["Álbumes de Deftones",["Adrenaline","Gore","Ohms","White Pony"]],["Platos",["Crash","Ride","China","Splash"]],["Técnica de batería",["Flam","Redoble","Relleno","Groove"]]]],en:[[["Nirvana songs",["Lithium","Polly","Breed","Sliver"]],["Deftones songs",["Passenger","Royal","Elite","Rosemary"]],["Drum kit",["Snare","Ride","Kick","Tom"]],["Band members",["Cobain","Chino","Grohl","Abe"]]],
+[["Nirvana albums",["Bleach","Nevermind","Incesticide","In Utero"]],["Deftones albums",["Adrenaline","Gore","Ohms","White Pony"]],["Cymbals",["Crash","Ride","China","Splash"]],["Drum moves",["Flam","Roll","Fill","Groove"]]]]};
+var q={g:null,idx:-1,sel:[],lives:4,solved:[],words:[]};
+function newPuzzle(){q.idx=(q.idx+1)%2;q.g=PUZ[L][q.idx];q.sel=[];q.lives=4;q.solved=[];
+ q.words=shuffle([].concat.apply([],q.g.map(function(x){return x[1]})));$("msg4").textContent="";$("next4").style.display="none";$("sub4").style.display="";$("shuf4").style.display="";draw4()}
+function draw4(){$("lives").textContent=q.lives;var s=$("sols");s.innerHTML="";
+ q.solved.forEach(function(i){var d=document.createElement("div");d.className="sol";d.style.background=BG[i];d.style.color=FG[i];d.innerHTML="<span class='d'>"+q.g[i][0]+"</span>"+q.g[i][1].join(", ");s.appendChild(d)});
+ var g=$("grid");g.innerHTML="";q.words.forEach(function(w){var b=document.createElement("button");b.className="w"+(q.sel.indexOf(w)>-1?" sel":"");b.textContent=w;
+  b.onclick=function(){var k=q.sel.indexOf(w);if(k>-1)q.sel.splice(k,1);else if(q.sel.length<4)q.sel.push(w);draw4()};g.appendChild(b)})}
+function end4(t){$("msg4").textContent=t;$("next4").style.display="inline-block";$("sub4").style.display="none";$("shuf4").style.display="none"}
+$("sub4").onclick=function(){if(q.sel.length<4){$("msg4").textContent=T("Elige primero cuatro palabras.","Pick four words first.");return}
+ var best=0,bi=-1;q.g.forEach(function(x,i){if(q.solved.indexOf(i)>-1)return;var n=q.sel.filter(function(w){return x[1].indexOf(w)>-1}).length;if(n>best){best=n;bi=i}});
+ if(best===4){q.solved.push(bi);q.words=q.words.filter(function(w){return q.sel.indexOf(w)<0});q.sel=[];$("msg4").textContent="";draw4();if(q.solved.length===4)end4(T("¡Las encontraste todas! ¡Feliz cumpleaños!","You got them all! Happy Birthday!"))}
+ else{q.lives--;$("msg4").textContent=best===3?T("¡Te falta una!","One away!"):T("Ese no es un grupo.","Not a group.");$("lives").textContent=q.lives;
+  if(q.lives<=0){q.g.forEach(function(x,i){if(q.solved.indexOf(i)<0)q.solved.push(i)});q.words=[];q.sel=[];draw4();end4(T("Sin errores. Estas son las respuestas.","Out of mistakes. Here are the answers."))}}};
+$("shuf4").onclick=function(){q.words=shuffle(q.words);draw4()};$("next4").onclick=newPuzzle;
+function setLang(l){L=l;try{localStorage.setItem("lang",l)}catch(x){}
+document.documentElement.lang=l;
+[].forEach.call(document.querySelectorAll("[data-en]"),function(el){if(el.dataset.es===undefined)el.dataset.es=el.innerHTML;el.innerHTML=l==="es"?el.dataset.es:el.dataset.en});
+$("in3").placeholder=T("Escribe el título","Type the title");document.title=T("Arcade de cumpleaños","Birthday Arcade");
+$("lang-es").setAttribute("aria-pressed",l==="es");$("lang-en").setAttribute("aria-pressed",l==="en");
+buildOpts();buildPads();simon.on=false;e.pat=null;c.s=null;q.g=null;q.idx=Math.max(q.idx-1,-1);
+["msg1","msg2","msg3","msg4"].forEach(function(i){$(i).textContent=""});
+if(cur===1)newBeat();if(cur===3)newSong();if(cur===4)newPuzzle()}
+setLang(L);
+</script></body></html>
